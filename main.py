@@ -1,24 +1,11 @@
-from stats import count_number_words, count_number_characters
+from stats import count_number_words, count_number_characters, sort_dictionary
+import sys
 
 
 def get_book_text(filepath):
     with open(filepath) as f:
         content_in_file = f.read()
     return content_in_file
-
-def sort_on(items):
-    return items["num"]
-
-def sort_dictionary(dictionary_to_sort):
-    sorting_dictionary = []
-    
-    for item in dictionary_to_sort:
-        sorting_dictionary.append({"char": item, "num": dictionary_to_sort[item]})
-
-    
-    sorting_dictionary.sort(reverse=True, key=sort_on)
-
-    return sorting_dictionary
 
 def print_characters(item_to_print):
     for item in item_to_print:
@@ -27,22 +14,23 @@ def print_characters(item_to_print):
             amount = item["num"]
             print(f"{character}: {amount}")
 
-
-
 def main():
-    filepath_frankenstein = "books/frankenstein.txt"
+    if(len(sys.argv) <= 1):
+        raise Exception("Usage: python3 main.py <path_to_book>")
 
-    book_text_frankenstein = get_book_text(filepath_frankenstein)
+    filepath = sys.argv[1]
+
+    book_text = get_book_text(filepath)
     
-    count_words_frankenstein = count_number_words(book_text_frankenstein)
+    count_words = count_number_words(book_text)
 
     print("============ BOOKBOT ============ \n" \
-        "Analyzing book found at books/frankenstein.txt... \n" \
+        f"Analyzing book found at {sys.argv[1]} \n" \
         "----------- Word Count ----------")
-    print(f"Found {count_words_frankenstein} total words")
+    print(f"Found {count_words} total words")
 
     # this is where you count and sort the characters in the book before you display it
-    count_characters_frankenstein = count_number_characters(book_text_frankenstein)
+    count_characters_frankenstein = count_number_characters(book_text)
 
     sorted_characters_frankenstein = sort_dictionary(count_characters_frankenstein)
 
@@ -55,5 +43,9 @@ def main():
 
 
 
+try:
+    main()
 
-main()
+except Exception as e:
+    print(e)
+    sys.exit(1)

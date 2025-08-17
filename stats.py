@@ -14,4 +14,16 @@ def count_number_characters(text):
 
     return letters
 
+def sort_on(items):
+    return items["num"]
+
+def sort_dictionary(dictionary_to_sort):
+    sorting_dictionary = []
     
+    for item in dictionary_to_sort:
+        sorting_dictionary.append({"char": item, "num": dictionary_to_sort[item]})
+
+    
+    sorting_dictionary.sort(reverse=True, key=sort_on)
+
+    return sorting_dictionary
